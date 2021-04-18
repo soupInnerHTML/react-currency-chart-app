@@ -1,12 +1,13 @@
 import React, { FC } from "react";
 import { getSnapshot } from "mobx-state-tree";
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
-import store from "../store";
-import { observer } from "mobx-react-lite";
+import { withStore } from "../hoc/withStore";
+import { IStore } from "../store";
 
-const { streamer, } = store
-
-const MainChart:FC<object> = () => {
+const MainChart:FC<IStore> = ({
+    streamer: {
+        historyOfPriceChange,
+    }, }) => {
     const tick = {
         fontSize: 11,
     }
@@ -15,7 +16,7 @@ const MainChart:FC<object> = () => {
         <AreaChart
             width={window.innerWidth - 100}
             height={400}
-            data={getSnapshot(streamer.historyOfPriceChange)}
+            data={getSnapshot(historyOfPriceChange)}
         >
             <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -32,4 +33,4 @@ const MainChart:FC<object> = () => {
     );
 };
 
-export default observer(MainChart);
+export default withStore(MainChart);

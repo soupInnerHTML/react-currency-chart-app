@@ -1,14 +1,12 @@
 import Streamer from "./Streamer";
 import App from "./App";
+import { Instance, types } from "mobx-state-tree";
 
-const streamer = Streamer.create()
-const app = App.create()
+const Store = types.model("Store", {
+    streamer: types.optional(Streamer, {}),
+    app: types.optional(App, {}),
+})
 
-const store = {
-    streamer,
-    app,
-}
+export interface IStore extends Instance<typeof Store> {}
 
-export type storeType = typeof store
-
-export default store
+export default Store.create()
