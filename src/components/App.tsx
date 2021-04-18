@@ -1,8 +1,8 @@
-import "./App.css";
+import "../css/App.css";
 import React, { FC, useEffect, useState } from "react";
-import logo from "./logo.svg";
-import MainChart from "./components/MainChart";
-import { storeType } from "./store";
+import logo from "../logo.svg";
+import MainChart from "./MainChart";
+import { storeType } from "../store";
 import { observer } from "mobx-react";
 
 const App:FC<storeType> = ({ streamer, app, }) => {
