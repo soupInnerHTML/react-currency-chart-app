@@ -13,7 +13,7 @@
   }
 }
 
-.App-header {
+.App-body {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+
+.price-lighten-green {
+  animation: Light-green 2s;
+}
+.price-lighten-red {
+  animation: Light-red 2s;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -36,3 +44,22 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes Light-green {
+  from {
+    color: #00ff00;
+  }
+  to {
+    color: #fff;
+  }
+}
+
+@keyframes Light-red {
+  from {
+    color: #ff0000;
+  }
+  to {
+    color: #fff;
+  }
+}
+

@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { FC, useEffect, useState } from "react";
+import logo from "./logo.svg";
+import MainChart from "./components/MainChart";
+import { storeType } from "./store";
+import { observer } from "mobx-react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App:FC<storeType> = ({ streamer, app, }) => {
+    const { subscribedCurrency, } = streamer
+    const [prevPrice, setPrevPrice] = useState<number | undefined>()
+    const [priceClass, setPriceClass] = useState<string>("")
+
+    useEffect(() => {
+        const base = "price-lighten-"
+        if ((subscribedCurrency || 0) >= (prevPrice || 0)) {
+            setPriceClass(base + "green")
+        }
+        else {
+            setPriceClass(base + "red")
+        }
+
+        setPrevPrice(subscribedCurrency)
+
+    }, [subscribedCurrency])
+
+
+    return (
+        <div className="App">
+            <body className="App-body">
+                {app.isReady ?
+                    <img src={logo} className="App-logo" alt="logo" /> :
+                    (<>
+                        <p
+                            onAnimationEnd={() => setPriceClass("")}
+                            className={priceClass}
+                        >
+                            {subscribedCurrency}
+                        </p>
+
+                        <MainChart/>
+                    </>)}
+            </body>
+        </div>
+    );
 }
 
-export default App;
+export default observer(App);
