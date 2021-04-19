@@ -1,0 +1,29 @@
+.price-lighten {
+    margin-right: 10px;
+    &.green {
+        animation: Light-green 2s;
+    }
+    &.red {
+        animation: Light-red 2s;
+    }
+}
+$ss: 5px;
+.dot {
+    height: $ss;
+    width: $ss;
+    border-radius: 50%;
+    & + p {
+        margin-right: 5px;
+    }
+}
+.currency {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $ss;
+    p {
+        font-size: 12px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}

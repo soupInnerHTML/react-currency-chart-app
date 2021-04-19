@@ -1,0 +1,22 @@
+@mixin animation-light($name, $from) {
+    @keyframes Light-#{$name} {
+        from {
+            color: $from;
+        }
+        to {
+            color: #fff;
+        }
+    }
+}
+
+@include animation-light(green, #00ff00);
+@include animation-light(red, #ff0000);
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
