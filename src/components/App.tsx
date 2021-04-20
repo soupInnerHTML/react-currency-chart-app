@@ -6,13 +6,13 @@ import { IStore } from "../store";
 import { withStore } from "../hoc/withStore";
 import ChartParams from "./Chart/Params/ChartParams";
 
-const App:FC<IStore> = ({ app, }) => {
+const App:FC<IStore> = ({ app, streamer: { subscribedCurrency, }, }) => {
 
 
     return (
         <div className="App">
             <body className="App-body">
-                {app.isReady ?
+                {!subscribedCurrency.price ?
                     <img src={logo} className="App-logo" alt="logo" /> :
                     (<>
                         <ChartParams/>

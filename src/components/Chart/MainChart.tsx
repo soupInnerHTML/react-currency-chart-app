@@ -8,6 +8,7 @@ import currencyColors from "../../global/currencyColors";
 const MainChart:FC<IStore> = ({
     streamer: {
         historyOfPriceChange,
+        historyOfSubsPriceChange,
     }, }) => {
     const tick = {
         fontSize: 11,
@@ -17,7 +18,7 @@ const MainChart:FC<IStore> = ({
         <AreaChart
             width={window.innerWidth - 100}
             height={400}
-            data={getSnapshot(historyOfPriceChange)}
+            data={getSnapshot(historyOfSubsPriceChange)}
         >
             <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">

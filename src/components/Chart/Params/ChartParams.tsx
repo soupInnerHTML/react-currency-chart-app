@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import { withStore } from "../../../hoc/withStore";
-import CurrencyNameWithDot from "./CurrencyNameWithDot";
 import { IStore } from "../../../store";
+import CurrencyNameWithDot from "./CurrencyNameWithDot";
+import CurrencySettings from "./CurrencySettings";
 
 const ChartParams: FC<IStore> = ({
     streamer: {
@@ -30,6 +31,8 @@ const ChartParams: FC<IStore> = ({
     return (
         <div>
             <div style={{ width: window.innerWidth - 100, }} className="currency">
+                <CurrencySettings/>
+
                 <p
                     onAnimationEnd={() => setPriceClass("")}
                     className={"price-lighten " + priceClass}
