@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { withStore } from "../../../hoc/withStore";
 import { IStore } from "../../../store";
 import CurrencyNameWithDot from "./CurrencyNameWithDot";
-import CurrencySettings from "./CurrencySettings";
+import cs from "classnames";
 
 const ChartParams: FC<IStore> = ({
     streamer: {
@@ -10,6 +10,8 @@ const ChartParams: FC<IStore> = ({
             price,
             name,
         },
+        streamBySimpleCurrency,
+        streamByCryptoCurrency,
         subscribedCurrencyBase,
     },
 }) => {
@@ -30,18 +32,25 @@ const ChartParams: FC<IStore> = ({
 
     return (
         <div>
-            <div style={{ width: window.innerWidth - 100, }} className="currency">
-                <CurrencySettings/>
-
+            <div style={{ width: window.innerWidth - 100, justifyContent: "flex-end", }} className="currency">
                 <p
                     onAnimationEnd={() => setPriceClass("")}
-                    className={"price-lighten " + priceClass}
+                    className={cs("price-lighten", priceClass)}
                 >
                     curr: {price}
                 </p>
 
-                <CurrencyNameWithDot {...{ name, }}/>
-                <CurrencyNameWithDot name={subscribedCurrencyBase.name}/>
+                <CurrencyNameWithDot
+                    {...{ name, }}
+                    data={["BTC", "ETH", "XRP", "LTC"]}
+                    cb={streamByCryptoCurrency}
+                />
+
+                <CurrencyNameWithDot
+                    name={subscribedCurrencyBase.name}
+                    data={["USD", "EUR", "JPY", "USDT"]}
+                    cb={streamBySimpleCurrency}
+                />
             </div>
         </div>
     );

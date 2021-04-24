@@ -23,16 +23,16 @@ const Streamer = types
 
     .volatile(self => ({
         ccStreamer: new WebSocket("wss://streamer.cryptocompare.com/v2?api_key=" + process.env.REACT_APP_CC_API_KEY),
+        channel: "5~CCCAGG",
     }))
     .actions((self) => ({
         afterCreate() {
-            this.getHistory()
+            // this.getHistory()
 
             self.ccStreamer.onopen = function onStreamOpen() {
                 let subRequest = {
                     "action": "SubAdd",
-                    "subs": ["2~Coinbase~BTC~USD"],
-                //    EUR,JPY
+                    "subs": [`${self.channel}~${self.subscribedCurrency.name}~${self.subscribedCurrencyBase.name}`],
                 };
                 self.ccStreamer.send(JSON.stringify(subRequest));
             }
@@ -74,12 +74,12 @@ const Streamer = types
                 }
             }
         },
-        getHistory: flow(function* getHistory() {
-            // const res = yield fetch("https://min-api.cryptocompare.com/data/exchange/histohour?tsym=BTC&limit=10&api_key=" + process.env.REACT_APP_CC_API_KEY)
-            // const { Data, } = yield res.json()
-            //
-            // self.historyOfPriceChange.push(...Data.map((item: any) => ({ ...item, time: getTime(item.time), })))
-        }),
+        // getHistory: flow(function* getHistory() {
+        // const res = yield fetch("https://min-api.cryptocompare.com/data/exchange/histohour?tsym=BTC&limit=10&api_key=" + process.env.REACT_APP_CC_API_KEY)
+        // const { Data, } = yield res.json()
+        //
+        // self.historyOfPriceChange.push(...Data.map((item: any) => ({ ...item, time: getTime(item.time), })))
+        // }),
         streamBySimpleCurrency: (simpleCurrencyName: string) => {
             self.historyOfSubsPriceChange.clear()
 
@@ -96,7 +96,27 @@ const Streamer = types
 
             let subRequest = {
                 "action": "SubAdd",
-                "subs": ["2~Coinbase~BTC~" + simpleCurrencyName],
+                "subs": [`${self.channel}~${self.subscribedCurrency.name}~${simpleCurrencyName}`],
+            };
+            self.ccStreamer.send(JSON.stringify(subRequest));
+        },
+        streamByCryptoCurrency: (cryptoCurrencyName: string) => {
+            self.historyOfSubsPriceChange.clear()
+
+            const gHistory = getSnapshot(self.historyOfPriceChange)
+            const updatesForNewCurrency: any = gHistory.filter((heartBeat: any) => (
+                heartBeat.cBase === self.subscribedCurrencyBase.name && heartBeat.cName === cryptoCurrencyName)
+            )
+
+            if (updatesForNewCurrency.length) {
+                self.historyOfSubsPriceChange.push(...updatesForNewCurrency)
+            }
+
+            self.subscribedCurrency.name = cryptoCurrencyName
+
+            let subRequest = {
+                "action": "SubAdd",
+                "subs": [`${self.channel}~${cryptoCurrencyName}~${self.subscribedCurrencyBase.name}`],
             };
             self.ccStreamer.send(JSON.stringify(subRequest));
         },

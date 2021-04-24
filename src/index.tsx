@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./css/index.scss";
+import "./scss/index.scss";
 import App from "../src/components/App";
 import store from "./store";
 import { Provider } from "mobx-react";

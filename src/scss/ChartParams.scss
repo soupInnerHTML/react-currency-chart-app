@@ -19,19 +19,35 @@ $ss: 5px;
 .currency {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: $ss;
     position: relative;
+    cursor: pointer;
     p {
         font-size: 12px;
         margin-top: 0;
         margin-bottom: 0;
     }
-    &-settings {
+    $bg: rgba(0, 0, 0, .2);
+    &-list {
         padding: 10px;
-        background: rgba(0, 0, 0, .2);
+        background: $bg;
         border-radius: 5px;
         position: absolute;
-        top: -100px;
+        top: -75px;
+        left: -5px;
+        transition: opacity .2s;
+        opacity: 0;
+        &.active {
+            opacity: 1;
+        }
+        &-before {
+            position: absolute;
+            left: 20px; bottom: -20px;
+            border: 10px solid transparent;
+            border-top: 10px solid $bg;
+        }
+        p {
+            margin-right: 0;
+        }
     }
 }

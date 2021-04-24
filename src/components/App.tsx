@@ -1,4 +1,4 @@
-import "../css/App.scss";
+import "../scss/App.scss";
 import React, { FC } from "react";
 import logo from "../logo.svg";
 import MainChart from "./Chart/MainChart";

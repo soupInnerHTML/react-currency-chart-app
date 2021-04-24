@@ -1,16 +1,31 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import getColorByCurrency from "../../../utils/getColorByCurrency";
+import CurrencySettings, { ISettingsProps } from "./CurrencyList";
 
 interface IProps {
     name: string,
     onClick?: () => void
 }
 
-const CurrencyNameWithDot:FC<IProps> = ({ name, ...props }) => {
+const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
+({
+    name,
+    cb,
+    data,
+    ...props
+}) => {
+    const [isActive, setIsActive] = useState(false)
     return (
-        <div className={"currency"} {...props}>
+        <div
+            className={"currency"}
+            onMouseEnter={() => setIsActive(true)}
+            onMouseLeave={() => setIsActive(false)}
+            {...props}
+        >
             <div className="dot" style={{ background: getColorByCurrency(name), }}/>
             <p>{name}</p>
+
+            <CurrencySettings {...{ cb, data, isActive, }}/>
         </div>
     );
 };
