@@ -3,12 +3,13 @@ import { withStore } from "../../../hoc/withStore";
 import { IStore } from "../../../store";
 import CurrencyNameWithDot from "./CurrencyNameWithDot";
 import cs from "classnames";
+import { ECurrency } from "../../../global/types";
 
 const ChartParams: FC<IStore> = ({
     streamer: {
+        subscribedCurrency,
         subscribedCurrency: {
             price,
-            name,
         },
         streamBySimpleCurrency,
         streamByCryptoCurrency,
@@ -41,13 +42,13 @@ const ChartParams: FC<IStore> = ({
                 </p>
 
                 <CurrencyNameWithDot
-                    {...{ name, }}
+                    name={subscribedCurrency.name as ECurrency}
                     data={["BTC", "ETH", "XRP", "LTC"]}
                     cb={streamByCryptoCurrency}
                 />
 
                 <CurrencyNameWithDot
-                    name={subscribedCurrencyBase.name}
+                    name={subscribedCurrencyBase.name as ECurrency}
                     data={["USD", "EUR", "JPY", "USDT"]}
                     cb={streamBySimpleCurrency}
                 />

@@ -1,15 +1,17 @@
 import { flow, getSnapshot, Instance, types } from "mobx-state-tree"
 import getTime from "../utils/getTime";
+import currencyColors from "../global/currencyColors.json";
+import { ECurrency } from "../global/types";
 
 const historyItem = types.model({
     time: types.string,
-    cName: types.string,
-    cBase: types.string,
+    cName: types.enumeration(Object.keys(currencyColors)),
+    cBase: types.enumeration(Object.keys(currencyColors)),
     price: types.number,
 })
 
 const currency = types.model({
-    name: types.string,
+    name: types.enumeration(Object.keys(currencyColors)),
     price: types.optional(types.number, 0),
 })
 
@@ -80,7 +82,7 @@ const Streamer = types
         //
         // self.historyOfPriceChange.push(...Data.map((item: any) => ({ ...item, time: getTime(item.time), })))
         // }),
-        streamBySimpleCurrency: (simpleCurrencyName: string) => {
+        streamBySimpleCurrency: (simpleCurrencyName: ECurrency) => {
             self.historyOfSubsPriceChange.clear()
 
             const gHistory = getSnapshot(self.historyOfPriceChange)
@@ -100,7 +102,7 @@ const Streamer = types
             };
             self.ccStreamer.send(JSON.stringify(subRequest));
         },
-        streamByCryptoCurrency: (cryptoCurrencyName: string) => {
+        streamByCryptoCurrency: (cryptoCurrencyName: ECurrency) => {
             self.historyOfSubsPriceChange.clear()
 
             const gHistory = getSnapshot(self.historyOfPriceChange)

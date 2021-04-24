@@ -3,9 +3,10 @@ import CurrencyNameWithDot from "./CurrencyNameWithDot";
 import { withStore } from "../../../hoc/withStore";
 import { IStore } from "../../../store";
 import cs from "classnames"
+import { ECurrency } from "../../../global/types";
 
 export interface ISettingsProps {
-    data: string[],
+    data: ECurrency[],
     isActive?: boolean,
     cb: (name: string) => void
 }
@@ -22,7 +23,7 @@ const CurrencyList: FC<IStore & ISettingsProps> = ({
     const cName = subscribedCurrency.name
     const cBase = subscribedCurrencyBase.name
 
-    const list = useMemo(() => (
+    const list: typeof data = useMemo(() => (
         data?.length ? (
             data.filter(c => c !== cName && c !== cBase)
         ) : []
@@ -32,7 +33,7 @@ const CurrencyList: FC<IStore & ISettingsProps> = ({
         <div className={cs("currency-list", { active: isActive, })}>
             <div className="currency-list-before"/>
             {
-                list.map((currencyName: string) => (
+                list.map((currencyName: ECurrency) => (
                     // @ts-ignore
                     <CurrencyNameWithDot
                         name={currencyName}

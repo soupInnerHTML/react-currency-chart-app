@@ -6,7 +6,7 @@ import { IStore } from "../store";
 import { withStore } from "../hoc/withStore";
 import ChartParams from "./Chart/Params/ChartParams";
 
-const App:FC<IStore> = ({ app, streamer: { subscribedCurrency, }, }) => {
+const App:FC<IStore> = ({ streamer: { subscribedCurrency, }, }) => {
 
 
     return (

@@ -1,10 +1,12 @@
 import React, { FC, useState } from "react";
+import { ECurrency } from "../../../global/types";
 import getColorByCurrency from "../../../utils/getColorByCurrency";
 import CurrencySettings, { ISettingsProps } from "./CurrencyList";
 
 interface IProps {
-    name: string,
-    onClick?: () => void
+    name: ECurrency,
+    onClick?: () => void,
+    data: ECurrency[]
 }
 
 const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
@@ -22,7 +24,9 @@ const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
             onMouseLeave={() => setIsActive(false)}
             {...props}
         >
-            <div className="dot" style={{ background: getColorByCurrency(name), }}/>
+            <div className="dot" style={{
+                background: getColorByCurrency(name),
+            }}/>
             <p>{name}</p>
 
             <CurrencySettings {...{ cb, data, isActive, }}/>

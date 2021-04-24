@@ -14,6 +14,7 @@ const MainChart:FC<IStore> = ({
         fontSize: 11,
     }
 
+    // @ts-ignore
     const color = getColorByCurrency(subscribedCurrency.name)
 
     return (
