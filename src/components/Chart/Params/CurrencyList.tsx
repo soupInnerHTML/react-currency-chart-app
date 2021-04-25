@@ -8,7 +8,7 @@ import { ECurrency } from "../../../global/types";
 export interface ISettingsProps {
     data: ECurrency[],
     isActive?: boolean,
-    cb: (name: string) => void
+    cb: (name: ECurrency) => void
 }
 
 const CurrencyList: FC<IStore & ISettingsProps> = ({

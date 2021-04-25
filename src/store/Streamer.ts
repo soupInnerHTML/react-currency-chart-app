@@ -1,4 +1,4 @@
-import { flow, getSnapshot, Instance, types } from "mobx-state-tree"
+import { getSnapshot, Instance, types } from "mobx-state-tree"
 import getTime from "../utils/getTime";
 import currencyColors from "../global/currencyColors.json";
 import { ECurrency } from "../global/types";
@@ -42,7 +42,7 @@ const Streamer = types
             self.ccStreamer.onmessage = this.onStreamMessage
 
         },
-        onStreamMessage(message: any) {
+        onStreamMessage(message: {data: string}) {
             const data = JSON.parse(message.data)
             if (data.PRICE) {
                 self.historyOfPriceChange.push({
@@ -82,11 +82,12 @@ const Streamer = types
         //
         // self.historyOfPriceChange.push(...Data.map((item: any) => ({ ...item, time: getTime(item.time), })))
         // }),
+        //TODO refactor streamBySimpleCurrency & streamByCryptoCurrency body in one fn()
         streamBySimpleCurrency: (simpleCurrencyName: ECurrency) => {
             self.historyOfSubsPriceChange.clear()
 
             const gHistory = getSnapshot(self.historyOfPriceChange)
-            const updatesForNewCurrency: any = gHistory.filter((heartBeat: any) => (
+            const updatesForNewCurrency = gHistory.filter((heartBeat: typeof gHistory[0]) => (
                 heartBeat.cBase === simpleCurrencyName && heartBeat.cName === self.subscribedCurrency.name)
             )
 
@@ -106,7 +107,7 @@ const Streamer = types
             self.historyOfSubsPriceChange.clear()
 
             const gHistory = getSnapshot(self.historyOfPriceChange)
-            const updatesForNewCurrency: any = gHistory.filter((heartBeat: any) => (
+            const updatesForNewCurrency = gHistory.filter((heartBeat: typeof gHistory[0]) => (
                 heartBeat.cBase === self.subscribedCurrencyBase.name && heartBeat.cName === cryptoCurrencyName)
             )
 
@@ -126,5 +127,3 @@ const Streamer = types
 
 export interface IStreamer extends Instance<typeof Streamer> {}
 export default Streamer
-
-//TODO replace any types

@@ -32,27 +32,25 @@ const ChartParams: FC<IStore> = ({
     }, [price])
 
     return (
-        <div>
-            <div style={{ width: window.innerWidth - 100, justifyContent: "flex-end", }} className="currency">
-                <p
-                    onAnimationEnd={() => setPriceClass("")}
-                    className={cs("price-lighten", priceClass)}
-                >
-                    curr: {price}
-                </p>
+        <div className="currency main">
+            <p
+                onAnimationEnd={() => setPriceClass("")}
+                className={cs("price-lighten", priceClass)}
+            >
+                curr: {price}
+            </p>
 
-                <CurrencyNameWithDot
-                    name={subscribedCurrency.name as ECurrency}
-                    data={["BTC", "ETH", "XRP", "LTC"]}
-                    cb={streamByCryptoCurrency}
-                />
+            <CurrencyNameWithDot
+                name={subscribedCurrency.name as ECurrency}
+                data={["BTC", "ETH", "XRP", "LTC"]}
+                cb={streamByCryptoCurrency}
+            />
 
-                <CurrencyNameWithDot
-                    name={subscribedCurrencyBase.name as ECurrency}
-                    data={["USD", "EUR", "JPY", "USDT"]}
-                    cb={streamBySimpleCurrency}
-                />
-            </div>
+            <CurrencyNameWithDot
+                name={subscribedCurrencyBase.name as ECurrency}
+                data={["USD", "EUR", "JPY", "USDT"]}
+                cb={streamBySimpleCurrency}
+            />
         </div>
     );
 };

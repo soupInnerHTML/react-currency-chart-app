@@ -24,3 +24,5 @@ const App:FC<IStore> = ({ streamer: { subscribedCurrency, }, }) => {
 }
 
 export default withStore(App);
+
+//TODO remove unused packages
