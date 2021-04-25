@@ -4,18 +4,20 @@ import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts"
 import { withStore } from "../../hoc/withStore";
 import { IStore } from "../../store";
 import getColorByCurrency from "../../utils/getColorByCurrency";
+import { ECurrency } from "../../global/types";
 
 const MainChart:FC<IStore> = ({
     streamer: {
         historyOfSubsPriceChange,
         subscribedCurrency,
+        subscribedCurrencyBase,
     }, }) => {
     const tick = {
         fontSize: 11,
     }
 
-    // @ts-ignore
-    const color = getColorByCurrency(subscribedCurrency.name)
+    const color = getColorByCurrency(subscribedCurrency.name as ECurrency)
+    const _color = getColorByCurrency(subscribedCurrencyBase.name as ECurrency) //???
 
     return (
         <AreaChart
@@ -26,7 +28,7 @@ const MainChart:FC<IStore> = ({
             <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor={color} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={color} stopOpacity={0}/>
+                    <stop offset="95%" stopColor={_color} stopOpacity={0.1}/>
                 </linearGradient>
                 {/*<linearGradient id="colorUx" x1="0" y1="0" x2="0" y2="1">*/}
                 {/*    <stop offset="5%" stopColor={currencyColors.USD_COLOR} stopOpacity={0.8}/>*/}

@@ -1,5 +1,6 @@
-import React, { FC, useState } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { ECurrency } from "../../../global/types";
+import withMemo from "../../../hoc/withMemo";
 import getColorByCurrency from "../../../utils/getColorByCurrency";
 import CurrencySettings, { ISettingsProps } from "./CurrencyList";
 
@@ -16,7 +17,15 @@ const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
     data,
     ...props
 }) => {
+    console.log("render CurrencyNameWithDot", {
+        name,
+        cb,
+        data,
+        ...props,
+    })
     const [isActive, setIsActive] = useState(false)
+    const CColor = useMemo(() => getColorByCurrency(name), [name])
+
     return (
         <div
             className={"currency"}
@@ -25,7 +34,8 @@ const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
             {...props}
         >
             <div className="dot" style={{
-                background: getColorByCurrency(name),
+                background: CColor,
+                boxShadow: "0 0 7px " + CColor,
             }}/>
             <p>{name}</p>
 
@@ -34,4 +44,4 @@ const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
     );
 };
 
-export default CurrencyNameWithDot;
+export default withMemo(CurrencyNameWithDot);

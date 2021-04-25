@@ -1,44 +1,27 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { withStore } from "../../../hoc/withStore";
 import { IStore } from "../../../store";
-import CurrencyNameWithDot from "./CurrencyNameWithDot";
-import cs from "classnames";
 import { ECurrency } from "../../../global/types";
+import CurrencyNameWithDot from "./CurrencyNameWithDot";
+import compose from "../../../utils/compose";
+import withMemo from "../../../hoc/withMemo";
+import CurrentPrice from "./CurrentPrice";
 
 const ChartParams: FC<IStore> = ({
     streamer: {
         subscribedCurrency,
-        subscribedCurrency: {
-            price,
-        },
         streamBySimpleCurrency,
         streamByCryptoCurrency,
         subscribedCurrencyBase,
     },
 }) => {
-    const [prevPrice, setPrevPrice] = useState<number>(0)
-    const [priceClass, setPriceClass] = useState<string>("")
 
-    useEffect(() => {
-        if (price >= prevPrice) {
-            setPriceClass("green")
-        }
-        else {
-            setPriceClass("red")
-        }
 
-        setPrevPrice(price)
-
-    }, [price])
+    console.log("render ChartParams")
 
     return (
         <div className="currency main">
-            <p
-                onAnimationEnd={() => setPriceClass("")}
-                className={cs("price-lighten", priceClass)}
-            >
-                curr: {price}
-            </p>
+            <CurrentPrice/>
 
             <CurrencyNameWithDot
                 name={subscribedCurrency.name as ECurrency}
@@ -55,4 +38,6 @@ const ChartParams: FC<IStore> = ({
     );
 };
 
-export default withStore(ChartParams);
+export default withStore(ChartParams)
+
+// export default compose(withStore, withMemo)(ChartParams)

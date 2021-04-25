@@ -3,15 +3,17 @@ import getTime from "../utils/getTime";
 import currencyColors from "../global/currencyColors.json";
 import { ECurrency } from "../global/types";
 
+const ECurrencyModel = types.enumeration(Object.keys(currencyColors))
+
 const historyItem = types.model({
     time: types.string,
-    cName: types.enumeration(Object.keys(currencyColors)),
-    cBase: types.enumeration(Object.keys(currencyColors)),
+    cName: ECurrencyModel,
+    cBase: ECurrencyModel,
     price: types.number,
 })
 
 const currency = types.model({
-    name: types.enumeration(Object.keys(currencyColors)),
+    name: ECurrencyModel,
     price: types.optional(types.number, 0),
 })
 
@@ -40,6 +42,8 @@ const Streamer = types
             }
 
             self.ccStreamer.onmessage = this.onStreamMessage
+
+            self.ccStreamer.onerror = (e) => console.log(e)
 
         },
         onStreamMessage(message: {data: string}) {
@@ -82,13 +86,12 @@ const Streamer = types
         //
         // self.historyOfPriceChange.push(...Data.map((item: any) => ({ ...item, time: getTime(item.time), })))
         // }),
-        //TODO refactor streamBySimpleCurrency & streamByCryptoCurrency body in one fn()
-        streamBySimpleCurrency: (simpleCurrencyName: ECurrency) => {
+        streamByCurrencies(simpleCurrencyName: ECurrency, cryptoCurrencyName: ECurrency) {
             self.historyOfSubsPriceChange.clear()
 
             const gHistory = getSnapshot(self.historyOfPriceChange)
             const updatesForNewCurrency = gHistory.filter((heartBeat: typeof gHistory[0]) => (
-                heartBeat.cBase === simpleCurrencyName && heartBeat.cName === self.subscribedCurrency.name)
+                heartBeat.cBase === simpleCurrencyName && heartBeat.cName === cryptoCurrencyName)
             )
 
             if (updatesForNewCurrency.length) {
@@ -96,32 +99,19 @@ const Streamer = types
             }
 
             self.subscribedCurrencyBase.name = simpleCurrencyName
-
-            let subRequest = {
-                "action": "SubAdd",
-                "subs": [`${self.channel}~${self.subscribedCurrency.name}~${simpleCurrencyName}`],
-            };
-            self.ccStreamer.send(JSON.stringify(subRequest));
-        },
-        streamByCryptoCurrency: (cryptoCurrencyName: ECurrency) => {
-            self.historyOfSubsPriceChange.clear()
-
-            const gHistory = getSnapshot(self.historyOfPriceChange)
-            const updatesForNewCurrency = gHistory.filter((heartBeat: typeof gHistory[0]) => (
-                heartBeat.cBase === self.subscribedCurrencyBase.name && heartBeat.cName === cryptoCurrencyName)
-            )
-
-            if (updatesForNewCurrency.length) {
-                self.historyOfSubsPriceChange.push(...updatesForNewCurrency)
-            }
-
             self.subscribedCurrency.name = cryptoCurrencyName
 
             let subRequest = {
                 "action": "SubAdd",
-                "subs": [`${self.channel}~${cryptoCurrencyName}~${self.subscribedCurrencyBase.name}`],
+                "subs": [`${self.channel}~${cryptoCurrencyName}~${simpleCurrencyName}`],
             };
             self.ccStreamer.send(JSON.stringify(subRequest));
+        },
+        streamBySimpleCurrency(simpleCurrencyName: ECurrency) {
+            this.streamByCurrencies(simpleCurrencyName, self.subscribedCurrency.name as ECurrency)
+        },
+        streamByCryptoCurrency(cryptoCurrencyName: ECurrency) {
+            this.streamByCurrencies(self.subscribedCurrencyBase.name as ECurrency, cryptoCurrencyName)
         },
     }))
 
