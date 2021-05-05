@@ -31,8 +31,6 @@ const Streamer = types
     }))
     .actions((self) => ({
         afterCreate() {
-            // this.getHistory()
-
             self.ccStreamer.onopen = function onStreamOpen() {
                 let subRequest = {
                     "action": "SubAdd",
@@ -52,7 +50,7 @@ const Streamer = types
                 self.historyOfPriceChange.push({
                     cName: data.FROMSYMBOL,
                     cBase: data.TOSYMBOL,
-                    time: getTime(data.LASTUPDATE),
+                    time: getTime(),
                     price: data.PRICE,
                 })
 
@@ -64,7 +62,7 @@ const Streamer = types
                     self.subscribedCurrency.price = data.PRICE
 
                     self.historyOfSubsPriceChange.push({
-                        time: getTime(data.LASTUPDATE),
+                        time: getTime(),
                         cName: data.FROMSYMBOL,
                         cBase: data.TOSYMBOL,
                         price: data.PRICE,
@@ -80,12 +78,6 @@ const Streamer = types
                 }
             }
         },
-        // getHistory: flow(function* getHistory() {
-        // const res = yield fetch("https://min-api.cryptocompare.com/data/exchange/histohour?tsym=BTC&limit=10&api_key=" + process.env.REACT_APP_CC_API_KEY)
-        // const { Data, } = yield res.json()
-        //
-        // self.historyOfPriceChange.push(...Data.map((item: any) => ({ ...item, time: getTime(item.time), })))
-        // }),
         streamByCurrencies(simpleCurrencyName: ECurrency, cryptoCurrencyName: ECurrency) {
             self.historyOfSubsPriceChange.clear()
 

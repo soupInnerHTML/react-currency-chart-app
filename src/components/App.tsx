@@ -11,14 +11,16 @@ const App:FC<IStore> = ({ streamer: { subscribedCurrency, }, }) => {
 
     return (
         <div className="App">
-            <body className="App-body">
-                {!subscribedCurrency.price ?
-                    <img src={logo} className="App-logo" alt="logo" /> :
-                    (<>
-                        <ChartParams/>
-                        <MainChart/>
-                    </>)}
-            </body>
+            <div className="App-body">
+                {
+                    !subscribedCurrency.price ?
+                        <img src={logo} className="App-logo" alt="logo" /> :
+                        (<>
+                            <ChartParams/>
+                            <MainChart/>
+                        </>)
+                }
+            </div>
         </div>
     );
 }
