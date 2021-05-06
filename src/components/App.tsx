@@ -1,24 +1,24 @@
 import "../scss/App.scss";
 import React, { FC } from "react";
-import logo from "../logo.svg";
-import MainChart from "./Chart/MainChart";
 import { IStore } from "../store";
 import { withStore } from "../hoc/withStore";
-import ChartParams from "./Chart/Params/ChartParams";
+import AppBody from "./AppBody";
+import Loader from "./Loader";
 
-const App:FC<IStore> = ({ streamer: { subscribedCurrency, }, }) => {
+const App:FC<IStore> = ({
+    streamer: {
+        historyOfSubsPriceChange,
+    },
+}) => {
 
 
     return (
         <div className="App">
             <div className="App-body">
                 {
-                    !subscribedCurrency.price ?
-                        <img src={logo} className="App-logo" alt="logo" /> :
-                        (<>
-                            <ChartParams/>
-                            <MainChart/>
-                        </>)
+                    // historyOfSubsPriceChange.length ?
+                    <AppBody/>
+                    // : <Loader/>
                 }
             </div>
         </div>

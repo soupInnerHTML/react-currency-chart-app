@@ -17,12 +17,6 @@ const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
     data,
     ...props
 }) => {
-    console.log("render CurrencyNameWithDot", {
-        name,
-        cb,
-        data,
-        ...props,
-    })
     const [isActive, setIsActive] = useState(false)
     const CColor = useMemo(() => getColorByCurrency(name), [name])
 

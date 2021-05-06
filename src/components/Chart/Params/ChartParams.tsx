@@ -5,7 +5,8 @@ import { ECurrency } from "../../../global/types";
 import CurrencyNameWithDot from "./CurrencyNameWithDot";
 import compose from "../../../utils/compose";
 import withMemo from "../../../hoc/withMemo";
-import CurrentPrice from "./CurrentPrice";
+import CurrentPrice from "./CurrentStreamValue";
+import CustomSwitch from "./CustomSwitch";
 
 const ChartParams: FC<IStore> = ({
     streamer: {
@@ -15,13 +16,11 @@ const ChartParams: FC<IStore> = ({
         subscribedCurrencyBase,
     },
 }) => {
-
-
-    console.log("render ChartParams")
-
     return (
         <div className="currency main">
             <CurrentPrice/>
+
+            <CustomSwitch/>
 
             <CurrencyNameWithDot
                 name={subscribedCurrency.name as ECurrency}
