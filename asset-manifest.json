@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/soupInnerHTML/react-currency-chart-app/static/css/main.3fe89d65.chunk.css",
-    "main.js": "/soupInnerHTML/react-currency-chart-app/static/js/main.e9dcc06a.chunk.js",
-    "main.js.map": "/soupInnerHTML/react-currency-chart-app/static/js/main.e9dcc06a.chunk.js.map",
-    "runtime-main.js": "/soupInnerHTML/react-currency-chart-app/static/js/runtime-main.b0f26a08.js",
-    "runtime-main.js.map": "/soupInnerHTML/react-currency-chart-app/static/js/runtime-main.b0f26a08.js.map",
-    "static/js/2.14b06d79.chunk.js": "/soupInnerHTML/react-currency-chart-app/static/js/2.14b06d79.chunk.js",
-    "static/js/2.14b06d79.chunk.js.map": "/soupInnerHTML/react-currency-chart-app/static/js/2.14b06d79.chunk.js.map",
-    "index.html": "/soupInnerHTML/react-currency-chart-app/index.html",
-    "static/css/main.3fe89d65.chunk.css.map": "/soupInnerHTML/react-currency-chart-app/static/css/main.3fe89d65.chunk.css.map",
-    "static/js/2.14b06d79.chunk.js.LICENSE.txt": "/soupInnerHTML/react-currency-chart-app/static/js/2.14b06d79.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/soupInnerHTML/react-currency-chart-app/static/media/logo.6ce24c58.svg"
+    "main.css": "/react-currency-chart-app/static/css/main.3fe89d65.chunk.css",
+    "main.js": "/react-currency-chart-app/static/js/main.e9dcc06a.chunk.js",
+    "main.js.map": "/react-currency-chart-app/static/js/main.e9dcc06a.chunk.js.map",
+    "runtime-main.js": "/react-currency-chart-app/static/js/runtime-main.a1e5fd29.js",
+    "runtime-main.js.map": "/react-currency-chart-app/static/js/runtime-main.a1e5fd29.js.map",
+    "static/js/2.7ce7fe33.chunk.js": "/react-currency-chart-app/static/js/2.7ce7fe33.chunk.js",
+    "static/js/2.7ce7fe33.chunk.js.map": "/react-currency-chart-app/static/js/2.7ce7fe33.chunk.js.map",
+    "index.html": "/react-currency-chart-app/index.html",
+    "static/css/main.3fe89d65.chunk.css.map": "/react-currency-chart-app/static/css/main.3fe89d65.chunk.css.map",
+    "static/js/2.7ce7fe33.chunk.js.LICENSE.txt": "/react-currency-chart-app/static/js/2.7ce7fe33.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/react-currency-chart-app/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.b0f26a08.js",
-    "static/js/2.14b06d79.chunk.js",
+    "static/js/runtime-main.a1e5fd29.js",
+    "static/js/2.7ce7fe33.chunk.js",
     "static/css/main.3fe89d65.chunk.css",
     "static/js/main.e9dcc06a.chunk.js"
   ]
