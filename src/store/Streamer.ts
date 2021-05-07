@@ -110,10 +110,10 @@ const Streamer = types
             this.streamByCurrencies(self.subscribedCurrencyBase.name as ECurrency, cryptoCurrencyName)
         },
         setStreamBy(_streamBy: typeof PRICE | typeof VOLUME) {
+            self.streamBy = _streamBy
             self.history.switchHistory((heartBeat: any) => (
                 heartBeat.streamBy === _streamBy && heartBeat.streamValue
             ))
-            self.streamBy = _streamBy
         },
     }))
 

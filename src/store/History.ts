@@ -50,7 +50,7 @@ const History = types
             }
         },
         getHistoryData: flow(function* () {
-            const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=10&`)
+            const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=10`)
             const { Data, } = data.Data
             const history = Data.map((_historyItem: any) => ({
                 time: getTime(new Date(_historyItem.time * 1000), true),
