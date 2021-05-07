@@ -4,6 +4,7 @@ import { PRICE, VOLUME } from "../global/consts";
 import axios from "axios";
 import getTime from "../utils/getTime";
 import normalizeNum from "../utils/normalizeNum";
+import { IStreamer } from "./Streamer";
 
 const ECurrencyModel = types.enumeration(Object.keys(currencyColors))
 
@@ -33,8 +34,7 @@ const History = types
     }))
     .views(self => ({
         get streamer() {
-            // @ts-ignore
-            return getRoot(self).streamer
+            return (getRoot(self) as any).streamer as IStreamer;
         },
         get subscribedCurrency() {
             return this.streamer.subscribedCurrency.name
@@ -45,55 +45,51 @@ const History = types
     }))
     .actions((self) => ({
         afterCreate() {
-            if (self.streamer.streamBy === VOLUME) {
-                this.getHistoryData()
-            }
+            this.getHistoryData()
         },
         getHistoryData: flow(function* () {
-            const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=50`)
-            const { Data, } = data.Data
-            const history = Data.map((_historyItem: any) => ({
-                time: getTime(new Date(_historyItem.time * 1000), true),
-                cName: self.subscribedCurrency,
-                cBase: self.subscribedCurrencyBase,
-                streamValue: normalizeNum(_historyItem.volumeto / 1000),
-                streamBy: VOLUME,
-            })).slice(0, -1)
+            if (self.streamer.streamBy === VOLUME) {
+                const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=50`)
+                const { Data, } = data.Data
+                const history = Data.map((_historyItem: any) => ({
+                    time: getTime(new Date(_historyItem.time * 1000), true),
+                    cName: self.subscribedCurrency,
+                    cBase: self.subscribedCurrencyBase,
+                    streamValue: normalizeNum(_historyItem.volumeto / 1000),
+                    streamBy: VOLUME,
+                })).slice(0, -1);
 
-            // @ts-ignore
-            self.setGlobal(...history)
-            // @ts-ignore
-            self.setSubs(...history)
+
+                (self as IHistory).setGlobal(...history);
+                (self as IHistory).setSubs(...history);
+
+                self.streamer.updateSubscribedCurrencyByLast(history)
+            }
         }),
-        switchHistory: flow(function* (filterBy: (heartBeat: typeof gHistory[0]) => void) {
+        switchHistory: flow(function* (filterBy: (heartBeat: IHistoryItem) => void) {
             self.streamer.subscribedCurrency.streamValue = 0
 
             const gHistory = getSnapshot(self.historyOfPriceChange)
             const updatesForNewCurrency = gHistory.filter(filterBy)
 
             if (updatesForNewCurrency.length) {
-                // @ts-ignore
-                self.historyOfSubsPriceChange = updatesForNewCurrency
-                //last fixed value by this params
-                self.streamer.subscribedCurrency.streamValue = updatesForNewCurrency.slice(-1)[0].streamValue
+                (self.historyOfSubsPriceChange as Array<IHistoryItem>) = updatesForNewCurrency as Array<IHistoryItem>
+                self.streamer.updateSubscribedCurrencyByLast(updatesForNewCurrency)
             }
             else {
                 self.historyOfSubsPriceChange.clear();
-
-                if (self.streamer.streamBy === VOLUME) {
-                    (self as IHistory).getHistoryData()
-                }
+                (self as IHistory).getHistoryData()
             }
         }),
-        setGlobal(...data:Array<typeof historyItem>) {
-            // @ts-ignore
+        setGlobal(...data:Array<IHistoryItem>) {
             self.historyOfPriceChange.push(...data)
         },
-        setSubs(...data:Array<typeof historyItem>) {
-            // @ts-ignore
+        setSubs(...data:Array<IHistoryItem>) {
+
             self.historyOfSubsPriceChange.push(...data)
         },
     }))
 
+export interface IHistoryItem extends Instance<typeof historyItem> {}
 export interface IHistory extends Instance<typeof History> {}
 export default History

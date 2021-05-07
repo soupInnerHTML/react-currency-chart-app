@@ -23,13 +23,13 @@ const ChartParams: FC<IStore> = ({
             <CustomSwitch/>
 
             <CurrencyNameWithDot
-                name={subscribedCurrency.name as ECurrency}
+                name={subscribedCurrency.name}
                 data={["BTC", "ETH", "XRP", "LTC"]}
                 cb={streamByCryptoCurrency}
             />
 
             <CurrencyNameWithDot
-                name={subscribedCurrencyBase.name as ECurrency}
+                name={subscribedCurrencyBase.name}
                 data={["USD", "EUR", "JPY", "USDT"]}
                 cb={streamBySimpleCurrency}
             />
@@ -38,5 +38,3 @@ const ChartParams: FC<IStore> = ({
 };
 
 export default withStore(ChartParams)
-
-// export default compose(withStore, withMemo)(ChartParams)

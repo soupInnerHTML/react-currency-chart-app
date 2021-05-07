@@ -1,11 +1,12 @@
-import { getRoot, types } from "mobx-state-tree"
+import { getRoot, Instance, types } from "mobx-state-tree"
 import getTime from "../utils/getTime";
 import currencyColors from "../global/currencyColors.json";
 import { ECurrency } from "../global/types";
 import { PRICE, VOLUME } from "../global/consts";
 import normalizeNum from "../utils/normalizeNum";
+import { IHistoryItem } from "./History";
 
-const ECurrencyModel = types.enumeration(Object.keys(currencyColors))
+export const ECurrencyModel = types.enumeration(Object.keys(currencyColors))
 
 const currency = types.model({
     name: ECurrencyModel,
@@ -24,8 +25,7 @@ const Streamer = types
     }))
     .views(self => ({
         get history() {
-            // @ts-ignore
-            return getRoot(self).history
+            return (getRoot(self) as any).history
         },
         get historyOfPriceChange() {
             return this.history.historyOfPriceChange
@@ -53,32 +53,27 @@ const Streamer = types
             const data = JSON.parse(message.data)
             const _streamBy = normalizeNum(data[self.streamBy.toUpperCase()])
             if (_streamBy) {
-                self.history.setGlobal({
+                const selectedItem = {
                     time: getTime(),
                     cName: data.FROMSYMBOL,
                     cBase: data.TOSYMBOL,
                     streamValue: _streamBy,
                     streamBy: self.streamBy as any,
-                })
+                }
+
+                self.history.setGlobal(selectedItem)
 
                 if (
                     data.TOSYMBOL === self.subscribedCurrencyBase.name &&
                     data.FROMSYMBOL === self.subscribedCurrency.name
                 ) {
                     self.subscribedCurrency.streamValue = _streamBy
-
-                    self.history.setSubs({
-                        time: getTime(),
-                        cName: data.FROMSYMBOL,
-                        cBase: data.TOSYMBOL,
-                        streamValue: _streamBy,
-                        streamBy: self.streamBy as any,
-                    })
+                    self.history.setSubs(selectedItem)
                 }
             }
         },
         streamByCurrencies(simpleCurrencyName: ECurrency, cryptoCurrencyName: ECurrency) {
-            self.history.switchHistory((heartBeat: any) => (
+            self.history.switchHistory((heartBeat: IHistoryItem) => (
                 heartBeat.cBase === simpleCurrencyName &&
                 heartBeat.cName === cryptoCurrencyName &&
                 heartBeat.streamBy === self.streamBy
@@ -101,10 +96,15 @@ const Streamer = types
         },
         setStreamBy(_streamBy: typeof PRICE | typeof VOLUME) {
             self.streamBy = _streamBy
-            self.history.switchHistory((heartBeat: any) => (
+            self.history.switchHistory((heartBeat: IHistoryItem) => (
                 heartBeat.streamBy === _streamBy && heartBeat.streamValue
             ))
         },
+        updateSubscribedCurrencyByLast(arr: Array<IHistoryItem>) {
+            self.subscribedCurrency.streamValue = arr.slice(-1)[0].streamValue
+        },
     }))
 
+// export interface ECurrencyModel extends Instance<typeof ECurrencyModel> {}
+export interface IStreamer extends Instance<typeof Streamer> {}
 export default Streamer

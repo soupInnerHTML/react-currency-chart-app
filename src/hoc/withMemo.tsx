@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-// import { IStore } from "../store";
 
 export default (Component: FC<any>) => (
     React.memo(

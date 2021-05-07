@@ -10,7 +10,7 @@ interface IProps {
     data: ECurrency[]
 }
 
-const CurrencyNameWithDot:FC<IProps & ISettingsProps> =
+const CurrencyNameWithDot:FC<ISettingsProps & IProps> =
 ({
     name,
     cb,

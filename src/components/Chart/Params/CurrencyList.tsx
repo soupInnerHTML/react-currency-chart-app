@@ -34,7 +34,6 @@ const CurrencyList: FC<IStore & ISettingsProps> = ({
             <div className="currency-list-before"/>
             {
                 list.map((currencyName: ECurrency, i) => (
-                    // @ts-ignore
                     <CurrencyNameWithDot
                         key={i}
                         name={currencyName}
