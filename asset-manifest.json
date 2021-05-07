@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-currency-chart-app/static/css/main.3a7a0c6b.chunk.css",
-    "main.js": "/react-currency-chart-app/static/js/main.2bc0dc9c.chunk.js",
-    "main.js.map": "/react-currency-chart-app/static/js/main.2bc0dc9c.chunk.js.map",
+    "main.js": "/react-currency-chart-app/static/js/main.b2f8f8bc.chunk.js",
+    "main.js.map": "/react-currency-chart-app/static/js/main.b2f8f8bc.chunk.js.map",
     "runtime-main.js": "/react-currency-chart-app/static/js/runtime-main.a1e5fd29.js",
     "runtime-main.js.map": "/react-currency-chart-app/static/js/runtime-main.a1e5fd29.js.map",
     "static/js/2.dabd2a69.chunk.js": "/react-currency-chart-app/static/js/2.dabd2a69.chunk.js",
@@ -16,6 +16,6 @@
     "static/js/runtime-main.a1e5fd29.js",
     "static/js/2.dabd2a69.chunk.js",
     "static/css/main.3a7a0c6b.chunk.css",
-    "static/js/main.2bc0dc9c.chunk.js"
+    "static/js/main.b2f8f8bc.chunk.js"
   ]
 }
