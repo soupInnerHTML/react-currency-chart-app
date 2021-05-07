@@ -50,7 +50,7 @@ const History = types
             }
         },
         getHistoryData: flow(function* () {
-            const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=10`)
+            const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=50`)
             const { Data, } = data.Data
             const history = Data.map((_historyItem: any) => ({
                 time: getTime(new Date(_historyItem.time * 1000), true),
@@ -64,8 +64,6 @@ const History = types
             self.setGlobal(...history)
             // @ts-ignore
             self.setSubs(...history)
-
-            console.log(Data)
         }),
         switchHistory: flow(function* (filterBy: (heartBeat: typeof gHistory[0]) => void) {
             self.streamer.subscribedCurrency.streamValue = 0
@@ -95,9 +93,6 @@ const History = types
             // @ts-ignore
             self.historyOfSubsPriceChange.push(...data)
         },
-        // cut() {
-        //     self.historyOfPriceChange.splice(0, 15)
-        // },
     }))
 
 export interface IHistory extends Instance<typeof History> {}

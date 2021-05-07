@@ -15,7 +15,6 @@ module.exports = {
         "no-var": "error",
         "no-extra-semi": "error",
         "camelcase": "error",
-        // "no-use-before-define": "error",
         "quotes": ["error", "double"],
         "keyword-spacing": 2,
         "comma-dangle": ["error", {

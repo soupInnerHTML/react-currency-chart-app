@@ -4,8 +4,6 @@ import { withStore } from "../../../hoc/withStore";
 import { IStore } from "../../../store";
 import cs from "classnames"
 import { ECurrency } from "../../../global/types";
-import withMemo from "../../../hoc/withMemo";
-import compose from "../../../utils/compose";
 
 export interface ISettingsProps {
     data: ECurrency[],
@@ -49,5 +47,3 @@ const CurrencyList: FC<IStore & ISettingsProps> = ({
 }
 
 export default withStore(CurrencyList);
-
-// export default compose(withStore, withMemo)(CurrencyList)

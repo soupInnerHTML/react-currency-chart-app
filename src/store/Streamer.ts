@@ -75,16 +75,6 @@ const Streamer = types
                         streamBy: self.streamBy as any,
                     })
                 }
-
-                // if (self.historyOfSubsPriceChange.length > 20) {
-                //     // self.historyOfSubsPriceChange.splice(0, 15)
-                //     self.history.cut()
-                // }
-                //
-                // if (self.historyOfPriceChange.length > 20) {
-                //     // self.historyOfPriceChange.splice(0, 15)
-                //     self.history.cut()
-                // }
             }
         },
         streamByCurrencies(simpleCurrencyName: ECurrency, cryptoCurrencyName: ECurrency) {

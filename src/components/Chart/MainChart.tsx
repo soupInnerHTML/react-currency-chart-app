@@ -23,14 +23,6 @@ const MainChart:FC<IStore> = ({
         fontSize: 11,
     }
 
-    useEffect(() => {
-        console.log(streamBy, "__streamBy__")
-    }, [streamBy])
-
-    useEffect(() => {
-        console.log(getSnapshot(historyOfPriceChange), "__historyOfPriceChange__")
-    }, [historyOfPriceChange.length])
-
     const fromColor = getColorByCurrency(subscribedCurrency.name as ECurrency)
     const toColor = getColorByCurrency(subscribedCurrencyBase.name as ECurrency)
 
