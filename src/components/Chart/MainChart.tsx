@@ -1,11 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { getSnapshot } from "mobx-state-tree";
-import { Area, AreaChart, CartesianGrid, ReferenceLine, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 import { withStore } from "../../hoc/withStore";
 import { IStore } from "../../store";
 import getColorByCurrency from "../../utils/getColorByCurrency";
 import { ECurrency } from "../../global/types";
-import getTime from "../../utils/getTime";
 import Loader from "../Loader";
 
 const MainChart:FC<IStore> = ({
@@ -16,6 +15,7 @@ const MainChart:FC<IStore> = ({
     },
     history: {
         historyOfSubsPriceChange,
+        historyOfPriceChange,
     },
 }) => {
 
@@ -23,11 +23,20 @@ const MainChart:FC<IStore> = ({
         fontSize: 11,
     }
 
+    useEffect(() => {
+        console.log(streamBy, "__streamBy__")
+    }, [streamBy])
+
+    useEffect(() => {
+        console.log(getSnapshot(historyOfPriceChange), "__historyOfPriceChange__")
+    }, [historyOfPriceChange.length])
+
     const fromColor = getColorByCurrency(subscribedCurrency.name as ECurrency)
     const toColor = getColorByCurrency(subscribedCurrencyBase.name as ECurrency)
 
     const data = getSnapshot(historyOfSubsPriceChange)
     const isDataNull = data.length < 2
+
 
     return (
         <>
@@ -43,19 +52,18 @@ const MainChart:FC<IStore> = ({
                         <stop offset="95%" stopColor={toColor} stopOpacity={0.1}/>
                     </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3" />
                 <XAxis dataKey="time" { ...{ tick, }} />
                 <YAxis domain={["dataMin", "dataMax"]} { ...{ tick, }} />
                 <Tooltip />
                 <Area
                     type="monotone"
                     name={streamBy}
-                    dataKey={"streamBy"}
+                    dataKey={"streamValue"}
                     stroke={fromColor}
                     fillOpacity={1}
                     fill="url(#colorUv)"
                 />
-                {/*<ReferenceLine x={getTime()} />*/}
             </AreaChart>
         </>
     );

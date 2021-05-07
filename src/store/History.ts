@@ -3,6 +3,7 @@ import currencyColors from "../global/currencyColors.json";
 import { PRICE, VOLUME } from "../global/consts";
 import axios from "axios";
 import getTime from "../utils/getTime";
+import normalizeNum from "../utils/normalizeNum";
 
 const ECurrencyModel = types.enumeration(Object.keys(currencyColors))
 
@@ -10,8 +11,8 @@ const historyItem = types.model({
     time: types.string,
     cName: ECurrencyModel,
     cBase: ECurrencyModel,
-    streamBy: types.number,
-    streamBase: types.enumeration([PRICE, VOLUME]),
+    streamValue: types.number,
+    streamBy: types.enumeration([PRICE, VOLUME]),
 })
 
 const History = types
@@ -44,7 +45,9 @@ const History = types
     }))
     .actions((self) => ({
         afterCreate() {
-            this.getHistoryData()
+            if (self.streamer.streamBy === VOLUME) {
+                this.getHistoryData()
+            }
         },
         getHistoryData: flow(function* () {
             const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=10&`)
@@ -53,8 +56,8 @@ const History = types
                 time: getTime(new Date(_historyItem.time * 1000), true),
                 cName: self.subscribedCurrency,
                 cBase: self.subscribedCurrencyBase,
-                streamBy: _historyItem.volumeto / 1000,
-                streamBase: VOLUME,
+                streamValue: normalizeNum(_historyItem.volumeto / 1000),
+                streamBy: VOLUME,
             })).slice(0, -1)
 
             // @ts-ignore
@@ -73,11 +76,15 @@ const History = types
             if (updatesForNewCurrency.length) {
                 // @ts-ignore
                 self.historyOfSubsPriceChange = updatesForNewCurrency
-                self.streamer.subscribedCurrency.streamValue = updatesForNewCurrency.slice(-1)[0].streamBy
+                //last fixed value by this params
+                self.streamer.subscribedCurrency.streamValue = updatesForNewCurrency.slice(-1)[0].streamValue
             }
             else {
                 self.historyOfSubsPriceChange.clear();
-                (self as IHistory).getHistoryData()
+
+                if (self.streamer.streamBy === VOLUME) {
+                    (self as IHistory).getHistoryData()
+                }
             }
         }),
         setGlobal(...data:Array<typeof historyItem>) {
