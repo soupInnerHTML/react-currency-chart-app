@@ -1,10 +1,10 @@
 import { getRoot, Instance, types } from "mobx-state-tree"
-import getTime from "../utils/getTime";
-import currencyColors from "../global/currencyColors.json";
 import { ECurrency } from "../global/types";
 import { PRICE, VOLUME } from "../global/consts";
-import normalizeNum from "../utils/normalizeNum";
 import { IHistoryItem } from "./History";
+import getTime from "../utils/getTime";
+import currencyColors from "../global/currencyColors.json";
+import normalizeNum from "../utils/normalizeNum";
 
 export const ECurrencyModel = types.enumeration(Object.keys(currencyColors))
 
@@ -105,6 +105,5 @@ const Streamer = types
         },
     }))
 
-// export interface ECurrencyModel extends Instance<typeof ECurrencyModel> {}
 export interface IStreamer extends Instance<typeof Streamer> {}
 export default Streamer

@@ -1,12 +1,9 @@
 import React, { FC } from "react";
 import { withStore } from "../../../hoc/withStore";
 import { IStore } from "../../../store";
-import { ECurrency } from "../../../global/types";
 import CurrencyNameWithDot from "./CurrencyNameWithDot";
-import compose from "../../../utils/compose";
-import withMemo from "../../../hoc/withMemo";
 import CurrentPrice from "./CurrentStreamValue";
-import CustomSwitch from "./CustomSwitch";
+import StreamBaseSwitch from "./StreamBaseSwitch";
 
 const ChartParams: FC<IStore> = ({
     streamer: {
@@ -20,7 +17,7 @@ const ChartParams: FC<IStore> = ({
         <div className="currency main">
             <CurrentPrice/>
 
-            <CustomSwitch/>
+            <StreamBaseSwitch/>
 
             <CurrencyNameWithDot
                 name={subscribedCurrency.name}

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { getSnapshot } from "mobx-state-tree";
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 import { withStore } from "../../hoc/withStore";
@@ -15,7 +15,6 @@ const MainChart:FC<IStore> = ({
     },
     history: {
         historyOfSubsPriceChange,
-        historyOfPriceChange,
     },
 }) => {
 

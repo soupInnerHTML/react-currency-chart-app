@@ -4,7 +4,7 @@ import { IStore } from "../../../store";
 import cs from "classnames";
 import { PRICE, VOLUME } from "../../../global/consts";
 
-const CustomSwitch: FC<IStore> = ({
+const StreamBaseSwitch: FC<IStore> = ({
     streamer: {
         streamBy,
         setStreamBy,
@@ -25,10 +25,8 @@ const CustomSwitch: FC<IStore> = ({
             <div onClick={priceActive} className={cs({ active: streamBy === PRICE, })}>
                 PRICE
             </div>
-            {/*<span>VOL</span>*/}
-            {/*<span>PRICE</span>*/}
         </div>
     );
 };
 
-export default withStore(CustomSwitch);
+export default withStore(StreamBaseSwitch);
