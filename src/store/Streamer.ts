@@ -1,7 +1,7 @@
 import { getRoot, Instance, types } from "mobx-state-tree"
 import { ECurrency } from "../global/types";
 import { PRICE, VOLUME } from "../global/consts";
-import { IHistoryItem } from "./History";
+import { IHistory, IHistoryItem } from "./History";
 import getTime from "../utils/getTime";
 import currencyColors from "../global/currencyColors.json";
 import normalizeNum from "../utils/normalizeNum";
@@ -18,6 +18,7 @@ const Streamer = types
         streamBy: types.optional(types.string, PRICE),
         subscribedCurrency: types.optional(currency, { name: "BTC", }),
         subscribedCurrencyBase: types.optional(currency, { name: "USD", }),
+        chartType: types.optional(types.enumeration(["line", "bar"]), "line"),
     })
     .volatile(self => ({
         ccStreamer: new WebSocket("wss://streamer.cryptocompare.com/v2?api_key=" + process.env.REACT_APP_CC_API_KEY),
@@ -25,13 +26,7 @@ const Streamer = types
     }))
     .views(self => ({
         get history() {
-            return (getRoot(self) as any).history
-        },
-        get historyOfPriceChange() {
-            return this.history.historyOfPriceChange
-        },
-        get historyOfSubsPriceChange() {
-            return this.history.historyOfSubsPriceChange
+            return (getRoot(self) as any).history as IHistory
         },
     }))
     .actions((self) => ({
@@ -73,14 +68,14 @@ const Streamer = types
             }
         },
         streamByCurrencies(simpleCurrencyName: ECurrency, cryptoCurrencyName: ECurrency) {
+            self.subscribedCurrencyBase.name = simpleCurrencyName
+            self.subscribedCurrency.name = cryptoCurrencyName
+
             self.history.switchHistory((heartBeat: IHistoryItem) => (
                 heartBeat.cBase === simpleCurrencyName &&
                 heartBeat.cName === cryptoCurrencyName &&
                 heartBeat.streamBy === self.streamBy
             ))
-
-            self.subscribedCurrencyBase.name = simpleCurrencyName
-            self.subscribedCurrency.name = cryptoCurrencyName
 
             let subRequest = {
                 "action": "SubAdd",
@@ -102,6 +97,9 @@ const Streamer = types
         },
         updateSubscribedCurrencyByLast(arr: Array<IHistoryItem>) {
             self.subscribedCurrency.streamValue = arr.slice(-1)[0].streamValue
+        },
+        setChartType(charType: "line" | "bar") {
+            self.chartType = charType;
         },
     }))
 

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { withStore } from "../../../hoc/withStore";
 import { IStore } from "../../../store";
 import CurrencyNameWithDot from "./CurrencyNameWithDot";
@@ -13,23 +13,29 @@ const ChartParams: FC<IStore> = ({
         subscribedCurrencyBase,
     },
 }) => {
+    const [activeSelectId, setActiveSelectId] = useState(-1)
     return (
         <div className="currency main">
-            <CurrentPrice/>
-
-            <StreamBaseSwitch/>
-
             <CurrencyNameWithDot
+                {...{ activeSelectId, setActiveSelectId, }}
+                id={1}
                 name={subscribedCurrency.name}
-                data={["BTC", "ETH", "XRP", "LTC"]}
+                data={["BTC", "ETH", "XRP", "LTC", "USDT", "BNB", "BUSD", "EOS", "ADA"]}
                 cb={streamByCryptoCurrency}
             />
 
             <CurrencyNameWithDot
+                {...{ activeSelectId, setActiveSelectId, }}
+                id={2}
                 name={subscribedCurrencyBase.name}
-                data={["USD", "EUR", "JPY", "USDT"]}
+                data={["USD", "EUR", "JPY", "RUB"]}
                 cb={streamBySimpleCurrency}
             />
+
+            <StreamBaseSwitch/>
+
+            <CurrentPrice/>
+
         </div>
     );
 };

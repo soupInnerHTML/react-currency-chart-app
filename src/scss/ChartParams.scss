@@ -12,6 +12,9 @@ $ss: 5px;
     height: $ss;
     width: $ss;
     border-radius: 50%;
+    &.untouched {
+        animation: fade 1s infinite alternate;
+    }
     & + p {
         margin-right: 5px;
     }
@@ -56,11 +59,11 @@ $sr: 4px;
     }
     &.main {
         width: calc(100% - 100px);
-        justify-content: flex-end
+        //justify-content: flex-end
     }
     $bg: rgba(0, 0, 0, .2);
     &-list {
-        padding: 10px;
+        display: flex;
         background: $bg;
         border-radius: 5px;
         position: absolute;
@@ -68,6 +71,8 @@ $sr: 4px;
         left: -5px;
         transition: opacity .2s;
         opacity: 0;
+        animation: 1s opacity;
+        padding: 5px;
         &.active {
             opacity: 1;
         }
@@ -80,10 +85,14 @@ $sr: 4px;
         p {
             margin-right: 0;
         }
+        &-inner{
+            padding: 5px;
+        }
     }
 }
 .nullChart {
     position: absolute;
+    top: 200px;
 }
 .fullChart {
     display: none;

@@ -30,10 +30,15 @@ const CurrentStreamValue: FC<IStore> = ({
         <>
             {
                 !!streamValue && <p
-                    onAnimationEnd={() => setPriceClass("")}
-                    className={cs("price-lighten", priceClass)}
+                    className={"price-lighten"}
                 >
-                    curr: {streamValue}
+                current price:&nbsp;
+                    <span
+                        onAnimationEnd={() => setPriceClass("")}
+                        className={cs("price-lighten", priceClass)}
+                    >
+                        {streamValue}
+                    </span>
                 </p>
             }
         </>

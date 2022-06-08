@@ -1,4 +1,4 @@
-import { flow, getRoot, getSnapshot, Instance, types } from "mobx-state-tree"
+import { addMiddleware, flow, getRoot, getSnapshot, Instance, types } from "mobx-state-tree"
 import currencyColors from "../global/currencyColors.json";
 import { PRICE, VOLUME } from "../global/consts";
 import axios from "axios";
@@ -48,15 +48,15 @@ const History = types
             this.getHistoryData()
         },
         getHistoryData: flow(function* () {
-            if (self.streamer.streamBy === VOLUME) {
+            if (self.streamer.streamBy === PRICE) {
                 const { data, } = yield self.api(`/histominute?fsym=${self.subscribedCurrency}&tsym=${self.subscribedCurrencyBase}&limit=50`)
                 const { Data, } = data.Data
                 const history = Data.map((_historyItem: any) => ({
                     time: getTime(new Date(_historyItem.time * 1000), true),
                     cName: self.subscribedCurrency,
                     cBase: self.subscribedCurrencyBase,
-                    streamValue: normalizeNum(_historyItem.volumeto / 1000),
-                    streamBy: VOLUME,
+                    streamValue: normalizeNum(_historyItem.open),
+                    streamBy: PRICE,
                 })).slice(0, -1);
 
 
@@ -85,10 +85,10 @@ const History = types
             self.historyOfPriceChange.push(...data)
         },
         setSubs(...data:Array<IHistoryItem>) {
-
             self.historyOfSubsPriceChange.push(...data)
         },
     }))
+
 
 export interface IHistoryItem extends Instance<typeof historyItem> {}
 export interface IHistory extends Instance<typeof History> {}

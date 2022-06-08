@@ -6,24 +6,28 @@ import { PRICE, VOLUME } from "../../../global/consts";
 
 const StreamBaseSwitch: FC<IStore> = ({
     streamer: {
-        streamBy,
-        setStreamBy,
+        // streamBy,
+        // setStreamBy,
+        chartType,
+        setChartType,
     },
 }) => {
     function volActive() {
-        setStreamBy(VOLUME)
+        // setStreamBy(VOLUME)
+        setChartType("line")
     }
     function priceActive() {
-        setStreamBy(PRICE)
+        // setStreamBy(PRICE)
+        setChartType("bar")
     }
 
     return (
         <div className={"switch"}>
-            <div onClick={volActive} className={cs({ active: streamBy === VOLUME, })}>
-                VOL
+            <div onClick={volActive} className={cs({ active: chartType === "line", })}>
+                Line
             </div>
-            <div onClick={priceActive} className={cs({ active: streamBy === PRICE, })}>
-                PRICE
+            <div onClick={priceActive} className={cs({ active: chartType === "bar", })}>
+                Bar
             </div>
         </div>
     );

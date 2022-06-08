@@ -2,10 +2,15 @@
     "BTC": "#ff7300",
     "USD": "#00ff00",
     "EUR": "#294b92",
+    "RUB": "#fff",
     "LTC": "#647AE6",
     "ETH": "#000",
     "JPY": "#bd0029",
     "USDT": "#16A17D",
     "XRP": "#9349ff",
+    "BNB": "#F0B80C",
+    "BUSD": "#EFB90B",
+    "EOS": "#000",
+    "ADA": "#0133AD",
     "DEFAULT": "#000"
 }
