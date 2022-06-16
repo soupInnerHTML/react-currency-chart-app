@@ -2,7 +2,7 @@
   "name": "react-currency-chart-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./",
+  "homepage": "https://soupinnerhtml.github.io/react-currency-chart-app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -55,6 +55,6 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
-    "gh-pages": "^3.1.0"
+    "gh-pages": "^4.0.0"
   }
 }
